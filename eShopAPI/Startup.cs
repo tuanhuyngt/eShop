@@ -29,6 +29,16 @@ namespace eShopAPI
         {
             services.AddControllers();
             services.AddDbContextPool<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBCS")));
+            services.AddCors(options =>
+        {
+        options.AddPolicy("AllowAllHeaders",
+              builder =>
+          {
+              builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+          });
+        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +50,8 @@ namespace eShopAPI
             }
 
             // app.UseHttpsRedirection();
+
+            app.UseCors("AllowAllHeaders");
 
             app.UseRouting();
 
